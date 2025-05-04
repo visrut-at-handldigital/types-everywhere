@@ -1,14 +1,29 @@
 import type { AWS } from "@serverless/typescript";
 
 const serverlessConfiguration: AWS = {
-  service: "aws-lambda-typescript",
-  plugins: ["serverless-offline"],
+  service: "types-everywhere",
+  plugins: ["serverless-offline", "serverless-esbuild"],
+  package: {
+    individually: true,
+  },
   provider: {
     name: "aws",
     runtime: "nodejs22.x",
+    region: process.env.AWS_DEFAULT_REGION,
   },
   build: {
     esbuild: false,
+  },
+  custom: {
+    esbuild: {
+      bundle: true,
+      minify: false,
+      sourcemap: "linked",
+      keepNames: true,
+      watch: {
+        pattern: "src/**/*.ts",
+      },
+    },
   },
   functions: {
     sendTrigger: {
@@ -17,6 +32,17 @@ const serverlessConfiguration: AWS = {
         {
           httpApi: {
             path: "/send-trigger",
+            method: "GET",
+          },
+        },
+      ],
+    },
+    triggerReceiver: {
+      handler: "./src/trigger-receiver.handler",
+      events: [
+        {
+          httpApi: {
+            path: "/trigger-receiver",
             method: "GET",
           },
         },

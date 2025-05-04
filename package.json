@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "offline": "serverless offline"
+    "offline": "serverless offline",
+    "build": "serverless package"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "@types/node": "^22.15.3",
     "glob": "^11.0.2",
     "serverless": "^4.14.2",
+    "serverless-esbuild": "^1.55.0",
     "serverless-offline": "^14.4.0",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
